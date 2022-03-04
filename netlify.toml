@@ -1,9 +1,11 @@
-# example netlify.toml
 [build]
   command = "# no build command"
   functions = "functions"
   publish = "public"
   base = "netlify"
+
+
+
 
   ## Uncomment to use this redirect for Single Page Applications like create-react-app.
   ## Not needed for static site generators.
@@ -11,6 +13,9 @@
   #  from = "/*"
   #  to = "/index.html"
   #  status = 200
+
+
+
 
   ## (optional) Settings for Netlify Dev
   ## https://github.com/netlify/cli/blob/main/docs/netlify-dev.md#project-detection
@@ -20,3 +25,12 @@
   #  publish = "dist" # Folder with the static content for _redirect file
 
   ## more info on configuring this file: https://www.netlify.com/docs/netlify-toml-reference/
+
+
+
+
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
