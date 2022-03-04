@@ -1,0 +1,4 @@
+{
+    "baseURL": "https://api.notion.com/v1/",
+    "notionVersion": "2022-02-22"
+}
