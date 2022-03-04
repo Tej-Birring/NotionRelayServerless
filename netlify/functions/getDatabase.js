@@ -3,8 +3,14 @@ const { errorResponseFactory } = require("./internal/_errorHandling");
 
 
 exports.handler = async function (event, context) {
+    let requestObj = event?.body;
+    if (!requestObj) {
+        return errorResponseFactory(400, "Failed to parse request.");
+    }
+    requestObj = JSON.parse(requestObj);
+    // console.log("REQUEST DATA", requestObj);
+
     // get parms
-    const requestObj = JSON.parse(event?.body);
     const databaseId = requestObj?.databaseId;
     if (!databaseId) {
         return errorResponseFactory(400, "databaseId not provided.");
@@ -21,10 +27,12 @@ exports.handler = async function (event, context) {
             start_cursor: startAtId,
             page_size: maxPages
         });
+        // console.log("RESPONSE DATA", res.data);
         return {
             statusCode: 200,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(res.data)
         }

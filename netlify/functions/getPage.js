@@ -3,19 +3,27 @@ const { errorResponseFactory } = require("./internal/_errorHandling");
 
 
 exports.handler = async function (event, context) {
+    let requestObj = event?.body;
+    if (!requestObj) {
+        return errorResponseFactory(400, "Failed to parse request.");
+    }
+    requestObj = JSON.parse(requestObj);
+    // console.log("REQUEST DATA", requestObj);
+
     // get parms
-    const requestObj = JSON.parse(event?.body);
     const pageId = requestObj?.pageId;
     if (!pageId) {
         return errorResponseFactory(400, "pageId not provided.");
     }
-    // make request and forward response
+    // make request and forward
     try {
         const res = await apiClient.get(`pages/${pageId}`);
+        // console.log("RESPONSE DATA", res.data);
         return {
             statusCode: 200,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(res.data)
         }

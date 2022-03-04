@@ -15,7 +15,11 @@ function errorResponseFactory(httpStatusCode, reason) {
             code: httpStatusCode,
             message: _message,
             reason: _reason
-        })
+        }),
+        headers: {
+            "Content-Type": "application/json",
+            'Access-Control-Allow-Origin': '*'
+        }
     }
 }
 
