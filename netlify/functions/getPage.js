@@ -18,6 +18,9 @@ exports.handler = async function (event, context) {
     // make request and forward
     try {
         const res = await apiClient.get(`pages/${pageId}`);
+        // console.log(res);
+        const res2 = await apiClient.get(`blocks/${pageId}/children`);
+        // console.log(res2);
         // console.log("RESPONSE DATA", res.data);
         return {
             statusCode: 200,
@@ -25,7 +28,10 @@ exports.handler = async function (event, context) {
                 "Content-Type": "application/json",
                 'Access-Control-Allow-Origin': '*'
             },
-            body: JSON.stringify(res.data)
+            body: JSON.stringify({
+                ...res.data,
+                blocks: res2.data.results
+            })
         }
     }
     catch (error) {
